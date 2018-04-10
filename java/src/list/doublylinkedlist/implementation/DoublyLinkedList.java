@@ -3,220 +3,235 @@ package list.doublylinkedlist.implementation;
 
 
 interface Iterator {
-    public boolean hasNext();
-    public Object next();
-    public boolean hasPrevious();
-    public Object previous();
+  public boolean hasNext();
+
+  public Object next();
+
+  public boolean hasPrevious();
+
+  public Object previous();
 }
 
 
 
 public class DoublyLinkedList {
-    // Ã¹¹øÂ° ³ëµå¸¦ °¡¸®Å°´Â ÇÊµå
-    private Node head;
-    private Node tail;
-    private int size = 0;
-    private class Node{
-        // µ¥ÀÌÅÍ°¡ ÀúÀåµÉ ÇÊµå
-        public Object data;
-        // ´ÙÀ½ ³ëµå¸¦ °¡¸®Å°´Â ÇÊµå
-        public Node next;
-        public Node prev;
-        public Node(Object input) {
-            this.data = input;
-            this.next = null;
-        }
-        // ³ëµåÀÇ ³»¿ëÀ» ½±°Ô Ãâ·ÂÇØ¼­ È®ÀÎÇØº¼ ¼ö ÀÖ´Â ±â´É
-        public String toString(){
-            return String.valueOf(this.data);
-        }
-    }
-    public void addFirst(Object input){
-        // ³ëµå¸¦ »ı¼ºÇÕ´Ï´Ù.
-        Node temp = new Node(input);
-        // »õ·Î¿î ³ëµåÀÇ ´ÙÀ½ ³ëµå·Î ÇØµå¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
-        temp.next = head;
-        // ±âÁ¸¿¡ ³ëµå°¡ ÀÖ¾ú´Ù¸é ÇöÀç ÇìµåÀÇ ÀÌÀü ³ëµå·Î »õ·Î¿î ³ëµå¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
-        if(head != null)
-            head.prev = temp;
-        // Çìµå·Î »õ·Î¿î ³ëµå¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
-        head = temp;
-        size++;
-        if(head.next == null){
-            tail = head;
-        }
-    }
-    public void addLast(Object input){
-        // ³ëµå¸¦ »ı¼ºÇÕ´Ï´Ù.
-        Node temp = new Node(input);
-        // ¸®½ºÆ®ÀÇ ³ëµå°¡ ¾ø´Ù¸é Ã¹¹øÂ° ³ëµå¸¦ Ãß°¡ÇÏ´Â ¸Ş¼Òµå¸¦ »ç¿ëÇÕ´Ï´Ù.
-        if(size == 0){
-            addFirst(input);
-        } else {
-            // ¸¶Áö¸· ³ëµåÀÇ ´ÙÀ½ ³ëµå·Î »ı¼ºÇÑ ³ëµå¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
-            tail.next = temp;
-            temp.prev = tail;
-            // ¸¶Áö¸· ³ëµå¸¦ °»½ÅÇÕ´Ï´Ù.
-            tail = temp;
-            // ¿¤¸®¸ÕÆ®ÀÇ °³¼ö¸¦ 1 Áõ°¡ ½ÃÅµ´Ï´Ù.
-            size++;
-        }
-    }
-    public void add(int k, Object input){
-        // ¸¸¾à k°¡ 0ÀÌ¶ó¸é Ã¹¹øÂ° ³ëµå¿¡ Ãß°¡ÇÏ´Â °ÍÀÌ±â ¶§¹®¿¡ addFirst¸¦ »ç¿ëÇÕ´Ï´Ù.
-        if(k == 0){
-            addFirst(input);
-        } else {
-            // ÇöÀç ¸®½ºÆ® »ó¿¡¼­ Ã¹¹øÂ° ³ëµå¸¦ temp1À¸·Î ´ã½À´Ï´Ù.
-            Node temp1 = head;
-            // k-1 ¹ø ¹İº¹¹®À» ½ÇÇàÇØ¼­ k-1 ³ëµå¸¦ Ã£½À´Ï´Ù.
-            for(int i=0; i<k-1; i++){
-                temp1 = temp1.next;
-            }
-            
-            // k ¹øÂ° ³ëµå¸¦ temp2·Î ÁöÁ¤ÇÕ´Ï´Ù.
-            Node temp2 = temp1.next;
-            // »õ·Î¿î ³ëµå¸¦ »ı¼ºÇÕ´Ï´Ù.
-            Node newNode = new Node(input);
-            // »õ·Î¿î ³ëµåÀÇ ´ÙÀ½ ³ëµå·Î temp2¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
-            newNode.next = temp2;
-            // temp2ÀÇ ÀÌÀü ³ëµå·Î »õ·Î¿î ³ëµå¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
-            if(temp2 != null)
-                temp2.prev = newNode;
-            // temp1ÀÇ ´ÙÀ½ ³ëµå·Î »õ·Î¿î ³ëµå¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
-            temp1.next = newNode;
-            //»õ·Î¿î ³ëµåÀÇ ÀÌÀü ³ëµå·Î temp1À» ÁöÁ¤ÇÕ´Ï´Ù.
-            newNode.prev = temp1;
-            size++;
-            // »õ·Î¿î ³ëµåÀÇ ´ÙÀ½ ³ëµå°¡ ¾ø´Ù¸é »õ·Î¿î ³ëµå°¡ ¸¶Áö¸· ³ëµåÀÌ±â ¶§¹®¿¡ tail·Î ÁöÁ¤ÇÕ´Ï´Ù.
-            if(newNode.next == null){
-                tail = newNode;
-            }
-        }
-    }
-    public String toString() {
-        // ³ëµå°¡ ¾ø´Ù¸é []¸¦ ¸®ÅÏÇÕ´Ï´Ù.
-        if(head == null){
-            return "[]";
-        }       
-        // Å½»öÀ» ½ÃÀÛÇÕ´Ï´Ù.
-        Node temp = head;
-        String str = "[";
-        // ´ÙÀ½ ³ëµå°¡ ¾øÀ» ¶§±îÁö ¹İº¹¹®À» ½ÇÇàÇÕ´Ï´Ù.
-        // ¸¶Áö¸· ³ëµå´Â ´ÙÀ½ ³ëµå°¡ ¾ø±â ¶§¹®¿¡ ¾Æ·¡ÀÇ ±¸¹®Àº ¸¶Áö¸· ³ëµå´Â Á¦¿ÜµË´Ï´Ù.
-        while(temp.next != null){
-            str += temp.data + ",";
-            temp = temp.next;
-        }
-        // ¸¶Áö¸· ³ëµå¸¦ Ãâ·Â°á°ú¿¡ Æ÷ÇÔ½ÃÅµ´Ï´Ù.
-        str += temp.data;
-        return str+"]";
-    }
-    public Object removeFirst(){
-        // Ã¹¹øÂ° ³ëµå¸¦ temp·Î ÁöÁ¤ÇÏ°í headÀÇ °ªÀ» µÎ¹øÂ° ³ëµå·Î º¯°æÇÕ´Ï´Ù.
-        Node temp = head;
-        head = temp.next;
-        // µ¥ÀÌÅÍ¸¦ »èÁ¦ÇÏ±â Àü¿¡ ¸®ÅÏÇÒ °ªÀ» ÀÓ½Ã º¯¼ö¿¡ ´ã½À´Ï´Ù. 
-        Object returnData = temp.data;
-        temp = null;
-        if(head != null)
-            head.prev = null;
-        size--;
-        return returnData;
-    }
-    public Object remove(int k){
-        if(k == 0)
-            return removeFirst();
-        // Ã¹¹øÂ° ³ëµå¸¦ temp·Î ÁöÁ¤ÇÕ´Ï´Ù.
-        Node temp = head;
-        // k-1¹øÂ° ³ëµå¸¦ temp·Î ÁöÁ¤ÇÕ´Ï´Ù.
-        for(int i=0; i<k-1; i++){
-            temp = temp.next;
-        }
-        // temp.nextÀÇ °ªÀ¸·Î temp.next.next¸¦ ÁöÁ¤ÇØ¾ß ÇÕ´Ï´Ù.
-        // temp.next.next¸¦ À§ÇØ¼­´Â temp.next°¡ Á¸ÀçÇØ¾ß ÇÕ´Ï´Ù.
-        // µû¶ó¼­ temp.next¸¦ »èÁ¦ ´ë»óÀ¸·Î ±â·ÏÇØµÓ´Ï´Ù.
-        Node todoDeleted = temp.next;
-        // temp.next.nextÀÇ °ªÀ» ¾Ë¾Ò±â ¶§¹®¿¡ ÀÌÁ¦ temp.next°¡ temp.next.next¸¦ °¡¸®Å°µµ·Ï ÇÕ´Ï´Ù.
-        temp.next = temp.next.next;
-        temp.next.prev = temp;
-        // temp.prev
-        // »èÁ¦µÈ µ¥ÀÌÅÍ¸¦ ¸®ÅÏÇÏ±â À§ÇØ¼­ returnData¿¡ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÕ´Ï´Ù.
-        Object returnData = todoDeleted.data; 
-        if(todoDeleted == tail){
-            tail = temp;
-        }
-        // cur.next¸¦ »èÁ¦ ÇÕ´Ï´Ù.
-        todoDeleted = null; 
-        size--;
-        return returnData;
-    }
-    public int size(){
-        return size;
-    }
-    public Object get(int k){
-        Node temp = head;
-        // index-1¹øÂ° ÀÎµ¦½º¸¦ Ã£Àº ÈÄ¿¡ ±× next¸¦ temp °ªÀ¸·Î ÁöÁ¤ÇÕ´Ï´Ù.
-        for(int i=0; i<k; i++){
-            temp = temp.next;
-        }
-        return temp.data;
-    }
-    public Object indexOf(Object data){
-        // Å½»ö ´ë»óÀÌ µÇ´Â ³ëµå¸¦ temp·Î ÁöÁ¤ÇÕ´Ï´Ù.
-        Node temp = head;
-        // Å½»ö ´ë»óÀÌ ¸î¹øÂ° ¿¤¸®¸ÕÆ®¿¡ ÀÖ´ÂÁö¸¦ ÀÇ¹ÌÇÏ´Â º¯¼ö·Î index¸¦ »ç¿ëÇÕ´Ï´Ù.
-        int index = 0;
-        // Å½»ö °ª°ú Å½»ö ´ë»óÀÇ °ªÀ» ºñ±³ÇÕ´Ï´Ù. 
-        while(temp.data != data){
-            temp = temp.next;
-            index++;
-            // tempÀÇ °ªÀÌ nullÀÌ¶ó´Â °ÍÀº ´õ ÀÌ»ó Å½»ö ´ë»óÀÌ ¾ø´Ù´Â °ÍÀ» ÀÇ¹ÌÇÕ´Ï´Ù.ÀÌ ¶§ -1À» ¸®ÅÏÇÕ´Ï´Ù.
-            if(temp == null)
-                return -1;
-        }
-        // Å½»ö ´ë»óÀ» Ã£¾Ò´Ù¸é ´ë»óÀÇ ÀÎµ¦½º °ªÀ» ¸®ÅÏÇÕ´Ï´Ù.
-        return index;
+  // ì²«ë²ˆì§¸ ë…¸ë“œë¥¼ ê°€ë¦¬í‚¤ëŠ” í•„ë“œ
+  private Node head;
+  private Node tail;
+  private int size = 0;
+
+  private class Node {
+    // ë°ì´í„°ê°€ ì €ì¥ë  í•„ë“œ
+    public Object data;
+    // ë‹¤ìŒ ë…¸ë“œë¥¼ ê°€ë¦¬í‚¤ëŠ” í•„ë“œ
+    public Node next;
+    public Node prev;
+
+    public Node(Object input) {
+      this.data = input;
+      this.next = null;
     }
 
-    // ¹İº¹ÀÚ¸¦ »ı¼ºÇØ¼­ ¸®ÅÏÇØÁİ´Ï´Ù.
-    public Iterator iterator() {
-        return new Ite();
+    // ë…¸ë“œì˜ ë‚´ìš©ì„ ì‰½ê²Œ ì¶œë ¥í•´ì„œ í™•ì¸í•´ë³¼ ìˆ˜ ìˆëŠ” ê¸°ëŠ¥
+    public String toString() {
+      return String.valueOf(this.data);
     }
-    
-    class Ite implements Iterator {
-        private Node lastReturned;
-        private Node next;
-        private int nextIndex;
-        
-        Ite(){
-            next = head;
-            nextIndex = 0;
-        }
-        
-        // º» ¸Ş¼Òµå¸¦ È£ÃâÇÏ¸é cursorÀÇ ÂüÁ¶°ªÀÌ ±âÁ¸ cursor.next·Î º¯°æµË´Ï´Ù. 
-        public Object next() {
-            lastReturned = next;
-            next = next.next;
-            nextIndex++;
-            return lastReturned.data;
-        }
-        
-        // cursorÀÇ °ªÀÌ ¾ø´Ù¸é ´Ù½Ã ¸»ÇØ¼­ ´õ ÀÌ»ó next¸¦ ÅëÇØ¼­ °¡Á®¿Ã ³ëµå°¡ ¾ø´Ù¸é false¸¦ ¸®ÅÏÇÕ´Ï´Ù.
-        // ÀÌ¸¦ ÅëÇØ¼­ next¸¦ È£ÃâÇØµµ µÇ´ÂÁö¸¦ »çÀü¿¡ ÆÇ´ÜÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-        public boolean hasNext() {
-            return nextIndex < size();
-        }
-        
-        public boolean hasPrevious() {
-            return nextIndex > 0;
-        }
-        
-        public Object previous() {
-            lastReturned = next = (next == null) ? tail : next.prev;
-            nextIndex--;
-            return lastReturned.data;
-        }
+  }
+
+  public void addFirst(Object input) {
+    // ë…¸ë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+    Node temp = new Node(input);
+    // ìƒˆë¡œìš´ ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œë¡œ í•´ë“œë¥¼ ì§€ì •í•©ë‹ˆë‹¤.
+    temp.next = head;
+    // ê¸°ì¡´ì— ë…¸ë“œê°€ ìˆì—ˆë‹¤ë©´ í˜„ì¬ í—¤ë“œì˜ ì´ì „ ë…¸ë“œë¡œ ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ì§€ì •í•©ë‹ˆë‹¤.
+    if (head != null)
+      head.prev = temp;
+    // í—¤ë“œë¡œ ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ì§€ì •í•©ë‹ˆë‹¤.
+    head = temp;
+    size++;
+    if (head.next == null) {
+      tail = head;
     }
+  }
+
+  public void addLast(Object input) {
+    // ë…¸ë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+    Node temp = new Node(input);
+    // ë¦¬ìŠ¤íŠ¸ì˜ ë…¸ë“œê°€ ì—†ë‹¤ë©´ ì²«ë²ˆì§¸ ë…¸ë“œë¥¼ ì¶”ê°€í•˜ëŠ” ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+    if (size == 0) {
+      addFirst(input);
+    } else {
+      // ë§ˆì§€ë§‰ ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œë¡œ ìƒì„±í•œ ë…¸ë“œë¥¼ ì§€ì •í•©ë‹ˆë‹¤.
+      tail.next = temp;
+      temp.prev = tail;
+      // ë§ˆì§€ë§‰ ë…¸ë“œë¥¼ ê°±ì‹ í•©ë‹ˆë‹¤.
+      tail = temp;
+      // ì—˜ë¦¬ë¨¼íŠ¸ì˜ ê°œìˆ˜ë¥¼ 1 ì¦ê°€ ì‹œí‚µë‹ˆë‹¤.
+      size++;
+    }
+  }
+
+  public void add(int k, Object input) {
+    // ë§Œì•½ kê°€ 0ì´ë¼ë©´ ì²«ë²ˆì§¸ ë…¸ë“œì— ì¶”ê°€í•˜ëŠ” ê²ƒì´ê¸° ë•Œë¬¸ì— addFirstë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+    if (k == 0) {
+      addFirst(input);
+    } else {
+      // í˜„ì¬ ë¦¬ìŠ¤íŠ¸ ìƒì—ì„œ ì²«ë²ˆì§¸ ë…¸ë“œë¥¼ temp1ìœ¼ë¡œ ë‹´ìŠµë‹ˆë‹¤.
+      Node temp1 = head;
+      // k-1 ë²ˆ ë°˜ë³µë¬¸ì„ ì‹¤í–‰í•´ì„œ k-1 ë…¸ë“œë¥¼ ì°¾ìŠµë‹ˆë‹¤.
+      for (int i = 0; i < k - 1; i++) {
+        temp1 = temp1.next;
+      }
+
+      // k ë²ˆì§¸ ë…¸ë“œë¥¼ temp2ë¡œ ì§€ì •í•©ë‹ˆë‹¤.
+      Node temp2 = temp1.next;
+      // ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+      Node newNode = new Node(input);
+      // ìƒˆë¡œìš´ ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œë¡œ temp2ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.
+      newNode.next = temp2;
+      // temp2ì˜ ì´ì „ ë…¸ë“œë¡œ ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ì§€ì •í•©ë‹ˆë‹¤.
+      if (temp2 != null)
+        temp2.prev = newNode;
+      // temp1ì˜ ë‹¤ìŒ ë…¸ë“œë¡œ ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ì§€ì •í•©ë‹ˆë‹¤.
+      temp1.next = newNode;
+      // ìƒˆë¡œìš´ ë…¸ë“œì˜ ì´ì „ ë…¸ë“œë¡œ temp1ì„ ì§€ì •í•©ë‹ˆë‹¤.
+      newNode.prev = temp1;
+      size++;
+      // ìƒˆë¡œìš´ ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œê°€ ì—†ë‹¤ë©´ ìƒˆë¡œìš´ ë…¸ë“œê°€ ë§ˆì§€ë§‰ ë…¸ë“œì´ê¸° ë•Œë¬¸ì— tailë¡œ ì§€ì •í•©ë‹ˆë‹¤.
+      if (newNode.next == null) {
+        tail = newNode;
+      }
+    }
+  }
+
+  public String toString() {
+    // ë…¸ë“œê°€ ì—†ë‹¤ë©´ []ë¥¼ ë¦¬í„´í•©ë‹ˆë‹¤.
+    if (head == null) {
+      return "[]";
+    }
+    // íƒìƒ‰ì„ ì‹œì‘í•©ë‹ˆë‹¤.
+    Node temp = head;
+    String str = "[";
+    // ë‹¤ìŒ ë…¸ë“œê°€ ì—†ì„ ë•Œê¹Œì§€ ë°˜ë³µë¬¸ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
+    // ë§ˆì§€ë§‰ ë…¸ë“œëŠ” ë‹¤ìŒ ë…¸ë“œê°€ ì—†ê¸° ë•Œë¬¸ì— ì•„ë˜ì˜ êµ¬ë¬¸ì€ ë§ˆì§€ë§‰ ë…¸ë“œëŠ” ì œì™¸ë©ë‹ˆë‹¤.
+    while (temp.next != null) {
+      str += temp.data + ",";
+      temp = temp.next;
+    }
+    // ë§ˆì§€ë§‰ ë…¸ë“œë¥¼ ì¶œë ¥ê²°ê³¼ì— í¬í•¨ì‹œí‚µë‹ˆë‹¤.
+    str += temp.data;
+    return str + "]";
+  }
+
+  public Object removeFirst() {
+    // ì²«ë²ˆì§¸ ë…¸ë“œë¥¼ tempë¡œ ì§€ì •í•˜ê³  headì˜ ê°’ì„ ë‘ë²ˆì§¸ ë…¸ë“œë¡œ ë³€ê²½í•©ë‹ˆë‹¤.
+    Node temp = head;
+    head = temp.next;
+    // ë°ì´í„°ë¥¼ ì‚­ì œí•˜ê¸° ì „ì— ë¦¬í„´í•  ê°’ì„ ì„ì‹œ ë³€ìˆ˜ì— ë‹´ìŠµë‹ˆë‹¤.
+    Object returnData = temp.data;
+    temp = null;
+    if (head != null)
+      head.prev = null;
+    size--;
+    return returnData;
+  }
+
+  public Object remove(int k) {
+    if (k == 0)
+      return removeFirst();
+    // ì²«ë²ˆì§¸ ë…¸ë“œë¥¼ tempë¡œ ì§€ì •í•©ë‹ˆë‹¤.
+    Node temp = head;
+    // k-1ë²ˆì§¸ ë…¸ë“œë¥¼ tempë¡œ ì§€ì •í•©ë‹ˆë‹¤.
+    for (int i = 0; i < k - 1; i++) {
+      temp = temp.next;
+    }
+    // temp.nextì˜ ê°’ìœ¼ë¡œ temp.next.nextë¥¼ ì§€ì •í•´ì•¼ í•©ë‹ˆë‹¤.
+    // temp.next.nextë¥¼ ìœ„í•´ì„œëŠ” temp.nextê°€ ì¡´ì¬í•´ì•¼ í•©ë‹ˆë‹¤.
+    // ë”°ë¼ì„œ temp.nextë¥¼ ì‚­ì œ ëŒ€ìƒìœ¼ë¡œ ê¸°ë¡í•´ë‘¡ë‹ˆë‹¤.
+    Node todoDeleted = temp.next;
+    // temp.next.nextì˜ ê°’ì„ ì•Œì•˜ê¸° ë•Œë¬¸ì— ì´ì œ temp.nextê°€ temp.next.nextë¥¼ ê°€ë¦¬í‚¤ë„ë¡ í•©ë‹ˆë‹¤.
+    temp.next = temp.next.next;
+    temp.next.prev = temp;
+    // temp.prev
+    // ì‚­ì œëœ ë°ì´í„°ë¥¼ ë¦¬í„´í•˜ê¸° ìœ„í•´ì„œ returnDataì— ë°ì´í„°ë¥¼ ì €ì¥í•©ë‹ˆë‹¤.
+    Object returnData = todoDeleted.data;
+    if (todoDeleted == tail) {
+      tail = temp;
+    }
+    // cur.nextë¥¼ ì‚­ì œ í•©ë‹ˆë‹¤.
+    todoDeleted = null;
+    size--;
+    return returnData;
+  }
+
+  public int size() {
+    return size;
+  }
+
+  public Object get(int k) {
+    Node temp = head;
+    // index-1ë²ˆì§¸ ì¸ë±ìŠ¤ë¥¼ ì°¾ì€ í›„ì— ê·¸ nextë¥¼ temp ê°’ìœ¼ë¡œ ì§€ì •í•©ë‹ˆë‹¤.
+    for (int i = 0; i < k; i++) {
+      temp = temp.next;
+    }
+    return temp.data;
+  }
+
+  public Object indexOf(Object data) {
+    // íƒìƒ‰ ëŒ€ìƒì´ ë˜ëŠ” ë…¸ë“œë¥¼ tempë¡œ ì§€ì •í•©ë‹ˆë‹¤.
+    Node temp = head;
+    // íƒìƒ‰ ëŒ€ìƒì´ ëª‡ë²ˆì§¸ ì—˜ë¦¬ë¨¼íŠ¸ì— ìˆëŠ”ì§€ë¥¼ ì˜ë¯¸í•˜ëŠ” ë³€ìˆ˜ë¡œ indexë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+    int index = 0;
+    // íƒìƒ‰ ê°’ê³¼ íƒìƒ‰ ëŒ€ìƒì˜ ê°’ì„ ë¹„êµí•©ë‹ˆë‹¤.
+    while (temp.data != data) {
+      temp = temp.next;
+      index++;
+      // tempì˜ ê°’ì´ nullì´ë¼ëŠ” ê²ƒì€ ë” ì´ìƒ íƒìƒ‰ ëŒ€ìƒì´ ì—†ë‹¤ëŠ” ê²ƒì„ ì˜ë¯¸í•©ë‹ˆë‹¤.ì´ ë•Œ -1ì„ ë¦¬í„´í•©ë‹ˆë‹¤.
+      if (temp == null)
+        return -1;
+    }
+    // íƒìƒ‰ ëŒ€ìƒì„ ì°¾ì•˜ë‹¤ë©´ ëŒ€ìƒì˜ ì¸ë±ìŠ¤ ê°’ì„ ë¦¬í„´í•©ë‹ˆë‹¤.
+    return index;
+  }
+
+  // ë°˜ë³µìë¥¼ ìƒì„±í•´ì„œ ë¦¬í„´í•´ì¤ë‹ˆë‹¤.
+  public Iterator iterator() {
+    return new Ite();
+  }
+
+  class Ite implements Iterator {
+    private Node lastReturned;
+    private Node next;
+    private int nextIndex;
+
+    Ite() {
+      next = head;
+      nextIndex = 0;
+    }
+
+    // ë³¸ ë©”ì†Œë“œë¥¼ í˜¸ì¶œí•˜ë©´ cursorì˜ ì°¸ì¡°ê°’ì´ ê¸°ì¡´ cursor.nextë¡œ ë³€ê²½ë©ë‹ˆë‹¤.
+    public Object next() {
+      lastReturned = next;
+      next = next.next;
+      nextIndex++;
+      return lastReturned.data;
+    }
+
+    // cursorì˜ ê°’ì´ ì—†ë‹¤ë©´ ë‹¤ì‹œ ë§í•´ì„œ ë” ì´ìƒ nextë¥¼ í†µí•´ì„œ ê°€ì ¸ì˜¬ ë…¸ë“œê°€ ì—†ë‹¤ë©´ falseë¥¼ ë¦¬í„´í•©ë‹ˆë‹¤.
+    // ì´ë¥¼ í†µí•´ì„œ nextë¥¼ í˜¸ì¶œí•´ë„ ë˜ëŠ”ì§€ë¥¼ ì‚¬ì „ì— íŒë‹¨í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+    public boolean hasNext() {
+      return nextIndex < size();
+    }
+
+    public boolean hasPrevious() {
+      return nextIndex > 0;
+    }
+
+    public Object previous() {
+      lastReturned = next = (next == null) ? tail : next.prev;
+      nextIndex--;
+      return lastReturned.data;
+    }
+  }
 
 }
